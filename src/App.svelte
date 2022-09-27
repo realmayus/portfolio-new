@@ -23,6 +23,10 @@ email += ".xyz";
         <a class="social" href="https://www.linkedin.com/in/marius-schuh-335512200/">→ LinkedIn</a>
         <a class="social" href="mailto:{email}">→ Email</a>
     </div>
+
+    <div class="section">
+        <p>(This website is under construction.)</p>
+    </div>
 </main>
 
 <style>
