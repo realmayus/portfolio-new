@@ -5,18 +5,22 @@
 <nav>
     <ul>
         <li>
-            <a href="/">Home</a>
-            <a href="/projects">Projects</a>
-            <a href="/contact">Contact</a>
+            <a href="#About">About</a>
+            <a href="#Projects">Projects</a>
+            <a href="#Contact">Contact</a>
         </li>
     </ul>
 </nav>
 
-<style>
+<style lang="scss">
     nav {
         width: calc(100% - 120px);
         display: flex;
         padding: 20px 60px;
+
+        @media (max-width: 1300px) {
+            display: none;
+        }
     }
     ul {
         list-style: none;
