@@ -8,7 +8,6 @@
 
     let dialogs = [0, 1, 2, 3, 4];
     const popDialog = (id) => {
-        console.log(dialogs, id);
         dialogs = dialogs.filter((dialog) => dialog !== id);
     }
 </script>
@@ -17,9 +16,11 @@
     <Nav/>
     <img class="download" alt="vintage download dialog" src={downloadDialog} aria-hidden="true"/>
     <div class="saveWrapper">
-        {#each dialogs as _, i (i)}
+        {#each new Array(5) as _, i (i)}
+            {#if dialogs && dialogs.includes(i)}
             <img class="save" style="top: {i*20}px; left: {i*20}px" alt="vintage save dialog" src={saveDialog}
                  aria-hidden="true" on:click={() => popDialog(i)}/>
+            {/if}
         {/each}
     </div>
 
@@ -128,7 +129,6 @@
   .saveWrapper {
     top: 100px;
     left: 50px;
-    z-index: -1;
     position: absolute;
     opacity: 0.4;
 
