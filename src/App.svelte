@@ -5,10 +5,18 @@
     import downloadDialog from "./assets/download_dialog.svg";
     import saveDialog from "./assets/save_dialog.svg";
     import arrowDown from "./assets/arrow-down-solid.svg";
+    import Slider from "./lib/Slider.svelte";
+    import privacy from "../public/privacy.html";
 
     let dialogs = [0, 1, 2, 3, 4];
     const popDialog = (id) => {
         dialogs = dialogs.filter((dialog) => dialog !== id);
+    }
+
+    let mouseX,mouseY = 0;
+    onmousemove = function (e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
     }
 </script>
 
@@ -36,8 +44,10 @@
 
     </header>
     <img id="arrowDown" src={arrowDown} alt="arrow down" aria-hidden="true"/>
-
-    <div class="section" style="margin-top: 300px">
+    <div style="width: 40vw; margin-left: 30vw; margin-top: 120px">
+        <Slider percent={(mouseX/window.innerWidth)*100} value={mouseX}/>
+    </div>
+    <div class="section" style="margin-top: 150px">
         <h2>About</h2>
         <p>I'm a self-taught programmer taking interest primarily in full stack web development, but also low-level
             engineering. At uni, I'm studying Cyber Security as a freshman right now. In my spare time, I have
@@ -59,6 +69,9 @@
     <div class="section">
         <p>(This website is under construction.)</p>
     </div>
+    <footer style="opacity: 0.5; padding: 20px; transform: scale(0.7)">
+        <a href={privacy}>Privacy</a>
+    </footer>
 </main>
 
 
@@ -118,10 +131,10 @@
     top: 20px;
     left: 20px;
     width: 250px;
-    transform: rotate(-1deg) translate(calc(50vw), calc(35vh));
-    opacity: 0.4;
+    transform: translate(calc(50vw), calc(35vh));
+    opacity: 0.3;
     @media (max-width: 450px) {
-      transform: rotate(-1deg) translate(0, calc(35vh));
+      transform: translate(0, calc(35vh));
     }
   }
 
@@ -137,7 +150,6 @@
   .save {
     position: absolute;
     width: 300px;
-    transform: rotate(0deg);
     @media (max-width: 800px) {
       width: 150px;
     }
@@ -229,13 +241,13 @@
       transform: translateY(0px);
     }
     25% {
-      transform: translateY(-5px);
+      transform: translateY(-10px);
     }
     50% {
       transform: translateY(0px);
     }
     75% {
-      transform: translateY(-5px);
+      transform: translateY(-10px);
     }
     100% {
       transform: translateY(0px);
