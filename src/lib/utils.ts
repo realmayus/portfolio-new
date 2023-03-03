@@ -1,14 +1,16 @@
-export function handleAnchorClick(event) {
-    event.preventDefault(); // Let us take over the work
-    const link = event.currentTarget; // the <a> that was clicked
-    const anchorId = new URL(link.href).hash.replace("#", ""); // the ID of the linked <a>
-    const anchor = document.getElementById(anchorId); // the element of the linked <a>
+export function handleAnchorClick(event?, anchorID?) {
+    if (!anchorID) {
+        event.preventDefault(); // Let us take over the work
+        const link = event.currentTarget; // the <a> that was clicked
+        anchorID = new URL(link.href).hash.replace("#", ""); // the ID of the linked <a>
+    }
+    const anchor = document.getElementById(anchorID); // the element of the linked <a>
     window.scrollTo({
         top: window.scrollY + anchor.getBoundingClientRect().top - 200,
         behavior: "smooth",
     });
 
-    history.replaceState(null, "", "#" + anchorId); // Set new hash in URL
+    history.replaceState(null, "", "#" + anchorID); // Set new hash in URL
 
     const e = new Event("hashchange"); // dispatch hash change event manually (so the scribble animation works)
     window.dispatchEvent(e);

@@ -17,6 +17,7 @@
     import emailIcon from "./assets/at-solid.svg";
     import earthImage from "./assets/earth-americas-solid.svg";
     import ProjectCard from "./lib/ProjectCard.svelte";
+    import {handleAnchorClick} from "./lib/utils.ts";
 
     let dialogs = [0, 1, 2, 3, 4];
     const popDialog = (id) => {
@@ -82,7 +83,7 @@
             NodeJS and Python.</p>
 
     </header>
-    <img id="arrowDown" src={arrowDown} alt="arrow down" aria-hidden="true"/>
+    <button class="arrowDownBtn" on:click={() => handleAnchorClick(null, "about")}><img id="arrowDown" src={arrowDown} alt="arrow down" aria-hidden="true"/></button>
     {#if header ? scrollY > header.getBoundingClientRect().height : false}
         <div aria-hidden="true" class="cyberui" transition:fade={{duration: 200}} style="width: 40vw; margin-left: 30vw; position: fixed; top: 20px">
             <Slider percent={(mouseX/window.innerWidth)*100} value={mouseX}/>
@@ -199,7 +200,6 @@
   }
 
   .pointer {
-    //filter: invert(1);
     width: 400px;
     z-index: -1;
     position: absolute;
@@ -334,19 +334,24 @@
   .social {
     margin: 10px 0;
   }
-
-  #arrowDown {
+  .arrowDownBtn {
     margin-top: -100px;
+    background-color: transparent;
+    border: none;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  #arrowDown {
     width: 20px;
-    filter: invert(1);
     animation: pulsate 3s ease-in-out;
     animation-iteration-count: infinite;
 
     &:before {
       content: url("assets/arrow-down-solid.svg");
-      //animation: pulsatePseudo 3s ease-in-out;
-      //animation-iteration-count: infinite;
-
     }
   }
 
