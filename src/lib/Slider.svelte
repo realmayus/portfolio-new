@@ -7,7 +7,7 @@
     <div class="indicator" style="left: calc({percent}% - 80px)">x: {value}px;</div>
 </div>
 
-<style>
+<style lang="scss">
     .line{
         width: 100%;
         height: 15px;
@@ -16,6 +16,10 @@
         border-left: 2px solid #2c2c2c;
         border-right: 2px solid #2c2c2c;
         position: relative;
+
+        @media (hover: none) {
+            display: none;
+        }
     }
 
     .indicator {

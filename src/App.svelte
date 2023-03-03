@@ -116,7 +116,7 @@
         </div>
         <div class="section">
             <Scribble title="Projects" id="projects" hash={hash}/>
-            <p style="text-align: center">Most of my noteworthy projects revolve around langauge learning. For the full list, make sure to check out my <a href="https://github.com/realmayus">GitHub profile</a>!</p>
+            <p style="text-align: center">Most of my noteworthy projects revolve around language learning. For the full list, make sure to check out my <a href="https://github.com/realmayus">GitHub profile</a>!</p>
             <div style="display: flex; flex-direction: column; gap: 20px">
                 <ProjectCard title="outspeak" img={earthImage} url="https://github.com/realmayus/outspeak" description="outspeak is a community website where users can share pronunciations of words in their own native language, to help others learn that language. It has extensive moderation features and a user-facing API."/>
                 <ProjectCard title="anki-forvo-dl" img={earthImage} url="https://github.com/realmayus/anki_forvo_dl" description="An add-on for the flashcards software Anki which allows you to fully automate the process of adding pronunciations to your language learning flashcards."/>
@@ -311,7 +311,7 @@
     align-items: center;
     flex-direction: column;
     margin: min(5vh, 100px) 0;
-    padding: 0 10px;
+    padding: 0 40px;
     gap: 10px;
   }
 

@@ -16,9 +16,12 @@
 
 <style lang="scss">
   a {
-    width: 500px;
+    max-width: 500px;
     text-decoration: none;
     display: flex;
+    @media (max-width: 500px) {
+      flex-direction: column;
+    }
     gap: 40px;
     cursor: pointer;
     align-items: center;
