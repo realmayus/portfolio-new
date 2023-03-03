@@ -6,33 +6,72 @@
     import saveDialog from "./assets/save_dialog.svg";
     import arrowDown from "./assets/arrow-down-solid.svg";
     import Slider from "./lib/Slider.svelte";
-    import privacy from "../public/privacy.html";
+    import Scribble from "./lib/Scribble.svelte";
+    import {fade} from "svelte/transition";
+    import protocolCyber from "./assets/protocol-cyber.svg";
+    import {getRandomInt} from "./lib/utils.ts";
+    import {onDestroy, onMount} from "svelte";
+    import SocialCard from "./lib/SocialCard.svelte";
+    import githubIcon from "./assets/github.svg";
+    import linkedinIcon from "./assets/linkedin.svg";
+    import emailIcon from "./assets/at-solid.svg";
+    import earthImage from "./assets/earth-americas-solid.svg";
+    import ProjectCard from "./lib/ProjectCard.svelte";
 
     let dialogs = [0, 1, 2, 3, 4];
     const popDialog = (id) => {
         dialogs = dialogs.filter((dialog) => dialog !== id);
     }
 
-    let mouseX,mouseY = 0;
-    onmousemove = function (e) {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    }
+    let mouseX = 0, mouseY = 0, scrollY = 0;
+
+    let hash = location.hash;
+    let date = new Date()
+    let versionString = "1." + date.getMonth().toString(8) + "." + date.getDate().toString(5);
+    let header;
+
+    //some dumb sci-fi-y strings
+    let processStrings = ["Analyzing system cache", "Intercepting network traffic", "Searching for vulnerabilities", "Shaving yaks", "Shutting down system firewalls", "Establishing secure SSH shell"];
+    let processIndex = getRandomInt(0, processStrings.length);
+    let processPercentage = 1;
+    let i = 1;
+
+    let interval;
+
+    onMount(() =>
+        interval = setInterval(() => {
+            if (processPercentage < 100) {
+                processPercentage += Math.abs(Math.sin(((i % 100) * 2 * Math.PI) / 100))
+                processPercentage = Math.min(100, processPercentage)
+                i += 1;
+            } else {
+                processPercentage = 1;
+                i = 1;
+                processIndex = getRandomInt(0, processStrings.length);
+            }
+        }, 100))
+
+    onDestroy(() => clearInterval(interval));
 </script>
+
+<svelte:window
+        on:hashchange={(_) => hash = location.hash}
+        on:mousemove={e => {mouseX = e.clientX;
+        mouseY = e.clientY;}}
+        bind:scrollY={scrollY}
+/>  <!-- need to update hash so we can use it in #if -->
 
 <main>
     <Nav/>
     <img class="download" alt="vintage download dialog" src={downloadDialog} aria-hidden="true"/>
     <div class="saveWrapper">
-        {#each new Array(5) as _, i (i)}
-            {#if dialogs && dialogs.includes(i)}
-            <img class="save" style="top: {i*20}px; left: {i*20}px" alt="vintage save dialog" src={saveDialog}
-                 aria-hidden="true" on:click={() => popDialog(i)}/>
-            {/if}
+        {#each dialogs as d}
+                <img class="save" style="top: {d*20}px; left: {d*20}px" alt="vintage save dialog" src={saveDialog}
+                     aria-hidden="true" on:click={() => popDialog(d)}/>
         {/each}
     </div>
 
-    <header>
+    <header bind:this={header} style="pointer-events: none">
         <div style="display: flex"><h1 style="margin-right: 10px"><i>Hallo</i>,</h1>
             <div class="this">
                 <img alt="pointing hand" aria-hidden="true" src={pointer} class="pointer">
@@ -44,33 +83,63 @@
 
     </header>
     <img id="arrowDown" src={arrowDown} alt="arrow down" aria-hidden="true"/>
-    <div style="width: 40vw; margin-left: 30vw; margin-top: 120px">
-        <Slider percent={(mouseX/window.innerWidth)*100} value={mouseX}/>
-    </div>
-    <div class="section" style="margin-top: 150px">
-        <h2>About</h2>
-        <p>I'm a self-taught programmer taking interest primarily in full stack web development, but also low-level
-            engineering. At uni, I'm studying Cyber Security as a freshman right now. In my spare time, I have
-            accumulated more than a year of professional experience as a part-time fullstack developer at <a
-                    href="https://lern-fair.de">Lern-Fair</a>.</p>
-    </div>
-    <div class="section">
-        <h2>Projects</h2>
-        <p style="text-align: center">This is just a selection of my coolest projects. For the full list, make sure to
-            check out my GitHub profile!</p>
-    </div>
-    <div class="section">
-        <h2>Socials</h2>
-        <a class="social" href="https://github.com/realmayus">GitHub</a>
-        <a class="social" href="https://www.linkedin.com/in/marius-schuh-335512200/">LinkedIn</a>
-        <a class="social" href="mailto:TBD">Email</a>
-    </div>
+    {#if header ? scrollY > header.getBoundingClientRect().height : false}
+        <div aria-hidden="true" class="cyberui" transition:fade={{duration: 200}} style="width: 40vw; margin-left: 30vw; position: fixed; top: 20px">
+            <Slider percent={(mouseX/window.innerWidth)*100} value={mouseX}/>
+        </div>
 
-    <div class="section">
-        <p>(This website is under construction.)</p>
+        <div aria-hidden="true" class="cyberui" transition:fade={{duration: 200}} style="transform: translate(-50%) rotate(-90deg); width: 500px; position: fixed; top: 300px; left: 25px;">
+          <Slider percent={100 - (mouseY/window.innerHeight)*100} value={mouseY}/>
+        </div>
+    {/if}
+    {#if header ? scrollY > header.getBoundingClientRect().height - window.innerHeight + 250 : false}
+    <div aria-hidden="true" class="cyberui" transition:fade={{duration: 200}} style="bottom: 10px; right: 20px; position: fixed;">
+            <code>v.{versionString}</code>
+        </div>
+        <div aria-hidden="true" class="cyberui" transition:fade={{duration: 200}} style="display:flex; align-items:baseline; gap: 60px; bottom: 0; left: 10px; position: fixed">
+            <img src={protocolCyber} style="width: 100px; opacity: 0.4; margin-bottom: 10px"/>
+            <div style="position: relative; height: 40px">
+                <div style="position: absolute; width: 110%; height:100%; border-top: 1px solid #2c2c2c; border-right: 2px solid #2c2c2c; transform: skew(40deg)"></div>
+                <code style="font-size: 12px">{processStrings[processIndex]}... ({processPercentage.toFixed(2)}%)</code>
+            </div>
+        </div>
+    {/if}
+    <div class="content">
+
+        <div class="section" style="margin-top: 150px">
+            <Scribble title="About" id="about" hash={hash}/>
+            <p>I'm a self-taught programmer taking interest primarily in full stack web development, but also low-level
+                engineering. At university, I'm studying Cyber Security as a freshman right now. In my spare time, I have
+                accumulated more than two years of professional experience as a part-time fullstack developer at <a
+                        href="https://lern-fair.de">Lern-Fair</a>.</p>
+        </div>
+        <div class="section">
+            <Scribble title="Projects" id="projects" hash={hash}/>
+            <p style="text-align: center">Most of my noteworthy projects revolve around langauge learning. For the full list, make sure to check out my <a href="https://github.com/realmayus">GitHub profile</a>!</p>
+            <div style="display: flex; flex-direction: column; gap: 20px">
+                <ProjectCard title="outspeak" img={earthImage} url="https://github.com/realmayus/outspeak" description="outspeak is a community website where users can share pronunciations of words in their own native language, to help others learn that language. It has extensive moderation features and a user-facing API."/>
+                <ProjectCard title="anki-forvo-dl" img={earthImage} url="https://github.com/realmayus/anki_forvo_dl" description="An add-on for the flashcards software Anki which allows you to fully automate the process of adding pronunciations to your language learning flashcards."/>
+                <ProjectCard title="Furi-sama" img={earthImage} url="https://github.com/realmayus/furi-sama" description="A Discord bot that uses wkhtmltoimg for adding furigana (a reading aid for japanese texts) to arbitrary Discord messages."/>
+            </div>
+        </div>
+        <div class="section">
+            <Scribble title="Socials" id="socials" hash={hash}/>
+            <div style="display: flex; gap: 20px">
+                <SocialCard name="GitHub" url="https://github.com/realmayus" icon={githubIcon}/>
+                <SocialCard name="LinkedIn" url="https://linkedin.com/in/realmayus" icon={linkedinIcon}/>
+                <SocialCard name="E-Mail" url="mailto:{window.atob('aGlAcmVhbG1heXVzLnh5eg==')}" icon={emailIcon}/>
+            </div>
+        </div>
+
+        <div class="section">
+            <p>(This website is under construction.)</p>
+        </div>
+        <div class="gridwrapper">
+            <div class="grid"></div>
+        </div>
     </div>
-    <footer style="opacity: 0.5; padding: 20px; transform: scale(0.7)">
-        <a href={privacy}>Privacy</a>
+    <footer style="opacity: 0.3; padding: 20px; transform: scale(0.7)">
+        <a href={"/privacy.html"}>Privacy</a>
     </footer>
 </main>
 
@@ -84,6 +153,49 @@
 
   main * {
     pointer-events: all;
+  }
+
+  .cyberui {
+    @media (max-width: 1200px) {
+      display: none;
+    }
+  }
+  .cyberui * {
+    @media (max-width: 1200px) {
+        display: none;
+    }
+  }
+
+  .cyberui * {
+    color: #2c2c2c;
+  }
+  *:not(.cyberui) {
+    z-index: 1;
+  }
+  .content {
+    position: relative;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .gridwrapper {
+    height: 1000px;
+    width: 100%;
+    bottom: 200px;
+    position: absolute;
+    transform: perspective(300px) rotateX(50deg) translateZ(-600px) scaleX(2);
+    mask-image: linear-gradient(rgba(255,255,255,0) 0%,rgba(255,255,255,0) 50%,rgb(255,255,255) 90%,rgba(255,255,255,0) 100%);
+    z-index: 0;
+    overflow: hidden;
+  }
+  .grid {
+    background-image: linear-gradient(0deg,transparent 24.999%,#777 25%,#777 26.999%,transparent 27%,transparent 74.999%,#777 75%,#777 76.999%,transparent 77%,transparent),linear-gradient(90deg,transparent 24.999%,#777 25%,#777 26.999%,transparent 27%,transparent 74.999%,#777 75%,#777 76.999%,transparent 77%,transparent);
+    height: 110%;
+    position: relative;
+    background-size: 35px 35px;
+    animation: gridani 2s infinite linear;
   }
 
   .pointer {
@@ -101,6 +213,7 @@
       display: none;
     }
   }
+
 
   .linesvg {
     position: absolute;
@@ -197,8 +310,9 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    margin: 100px 0;
-    padding: 0 20px;
+    margin: min(5vh, 100px) 0;
+    padding: 0 10px;
+    gap: 10px;
   }
 
   header {
@@ -253,6 +367,15 @@
       transform: translateY(0px);
     }
 
+  }
+
+  @keyframes gridani {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-35px);
+    }
   }
 
 </style>

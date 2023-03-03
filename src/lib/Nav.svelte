@@ -1,13 +1,13 @@
 <script>
-
+    import {handleAnchorClick} from "./utils";
 </script>
 
 <nav>
     <ul>
         <li>
-            <a href="#About">About</a>
-            <a href="#Projects">Projects</a>
-            <a href="#Contact">Contact</a>
+            <a href="#about" on:click={handleAnchorClick}>About</a>
+            <a href="#projects" on:click={handleAnchorClick}>Projects</a>
+            <a href="#socials" on:click={handleAnchorClick}>Contact</a>
         </li>
     </ul>
 </nav>

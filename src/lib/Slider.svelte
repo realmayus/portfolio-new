@@ -12,18 +12,18 @@
         width: 100%;
         height: 15px;
 
-        border-top: 2px solid #232323;
-        border-left: 2px solid #232323;
-        border-right: 2px solid #232323;
+        border-top: 2px solid #2c2c2c;
+        border-left: 2px solid #2c2c2c;
+        border-right: 2px solid #2c2c2c;
         position: relative;
     }
 
     .indicator {
         width: 80px;
-        border-right: 2px solid #232323;
-        height: 25px;
+        border-right: 2px solid #2c2c2c;
+        height: 15px;
         position: absolute;
-        color: #232323;
+        color: #2c2c2c;
         font-size: 12px;
         font-family: monospace;
     }
