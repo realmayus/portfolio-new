@@ -111,8 +111,7 @@
             <Scribble title="About" id="about" hash={hash}/>
             <p>I'm a self-taught programmer taking interest primarily in full stack web development, but also low-level
                 engineering. At university, I'm studying Cyber Security as a freshman right now. In my spare time, I have
-                accumulated more than two years of professional experience as a part-time fullstack developer at <a
-                        href="https://lern-fair.de" rel="noreferrer nofollow noopener">Lern-Fair</a>.</p>
+                accumulated more than two years of experience as a part-time fullstack developer.
         </div>
         <div class="section">
             <Scribble title="Projects" id="projects" hash={hash}/>
