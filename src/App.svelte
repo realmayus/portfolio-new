@@ -53,6 +53,18 @@
         }, 100))
 
     onDestroy(() => clearInterval(interval));
+
+    const birthday = new Date(2004, 4, 10);
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear()
+    const nextBirthday = new Date(currentYear, 4, 10);
+
+    const birthdayDiffMs = currentDate.getTime() - birthday.getTime();
+    const birthdayDiffYears = Math.floor(birthdayDiffMs / 31536000000);  // number of ms in a year
+    const nextBirthdayDiffMs = nextBirthday.getTime() - currentDate.getTime();
+    const nextBirthdayDiffDays = Math.ceil(nextBirthdayDiffMs / (1000 * 60 * 60 * 24));  // number of ms in a day
+
+
 </script>
 
 <svelte:window
@@ -79,7 +91,7 @@
                 <h1>this</h1></div>
         </div>
         <h1>is Marius.</h1>
-        <p class="caption">I'm an 18 year old Junior Web Developer and Cyber Security Student who works with React,
+        <p class="caption">I'm an <span title="Only {nextBirthdayDiffDays} more sleep{nextBirthdayDiffMs === 1 ? '' : 's'}">{birthdayDiffYears} year old</span> Junior Web Developer and Cyber Security Student who works with React,
             NodeJS and Python.</p>
 
     </header>
@@ -290,18 +302,20 @@
     }
   }
 
-
-  .caption {
-    max-width: 800px;
-    text-align: center;
+  .caption, .caption > span {
     font-family: "Corben", serif;
     font-size: 27px;
-    margin: 40px 0;
-    padding: 0 40px;
-
     @media (max-width: 450px) {
       font-size: 20px;
     }
+  }
+  .caption {
+    max-width: 800px;
+    text-align: center;
+    margin: 40px 0;
+    padding: 0 40px;
+
+
   }
 
   .section {
