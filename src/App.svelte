@@ -91,7 +91,7 @@
                 <h1>this</h1></div>
         </div>
         <h1>is Marius.</h1>
-        <p class="caption">I'm an <span title="Only {nextBirthdayDiffDays} more sleep{nextBirthdayDiffMs === 1 ? '' : 's'}">{birthdayDiffYears} year old</span> Junior Web Developer and Cyber Security Student who works with React,
+        <p class="caption">I'm a <span title="Only {nextBirthdayDiffDays} more sleep{nextBirthdayDiffMs === 1 ? '' : 's'}">{birthdayDiffYears} year old</span> Junior Web Developer and Cyber Security Student who works with React,
             NodeJS and Python.</p>
 
     </header>
